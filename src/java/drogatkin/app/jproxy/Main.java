@@ -22,7 +22,8 @@ public class Main extends HttpServlet {
 		String proxyTo = req.getPathInfo();
 		URL toURL = null;
 		try {
-			toURL = new URL(proxyTo.substring(1)); // remove slash
+			String q = req.getQueryString();
+			toURL = new URL(proxyTo.substring(1)+(q==null?"":"?"+q)); // remove slash
 			URL toURL2 = toURL;
 			HttpURLConnection con = (HttpURLConnection) toURL.openConnection();
 			String met = req.getMethod();
