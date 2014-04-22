@@ -34,14 +34,18 @@ public class Main extends HttpServlet {
 			Enumeration<String> hdrs =req.getHeaderNames();
 			while(hdrs.hasMoreElements()) {
 				String n = hdrs.nextElement();
-				if ("host".equals(n)) con.setRequestProperty(n, toURL2.getHost());
-				else {
 					Enumeration<String> vs = req.getHeaders(n);
+					if ("host".equals(n)) { con.setRequestProperty(n, toURL2.getHost());
+					if (vs.hasMoreElements()) con.addRequestProperty("X-Forwarded-Host", vs.nextElement());
+					} else {
 					while(vs.hasMoreElements()) {
 						con.addRequestProperty(n, vs.nextElement());
 					}
 				}				
 			}
+			con.addRequestProperty("X-Forwarded-For", req.getRemoteAddr());
+			con.addRequestProperty("X-Forwarded-Server", "localhost"); // TODO find out
+			//req.getRequestURL()
 			if ("POST".equalsIgnoreCase(met)) {
 				String contentType = req.getContentType();
 				if (contentType != null && contentType.toLowerCase().indexOf("multipart/form-data") >= 0) {
