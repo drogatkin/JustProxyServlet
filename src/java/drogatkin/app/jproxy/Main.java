@@ -102,8 +102,10 @@ public class Main extends HttpServlet {
 			resp.setStatus(con.getResponseCode(), con.getResponseMessage());
 			//InputStream cis = con.getInputStream();
 			con.getHeaderFields().forEach((String n,List<String> vs)->{
-				if (n != null)
+				if (n != null) {
+					resp.setHeader(n, null);
 					vs.forEach((String v)->{boolean oneHdr = false; switch(n.toLowerCase()) { case "keep-alive": v=null;break; case "location": v=adjustLocation(v, req); oneHdr = true; break; case "connection": v= "close"; oneHdr = true; break;} if (oneHdr) resp.setHeader(n, v); else resp.addHeader(n, v); /*log(String.format("Add header :%s=%s%n", n,v));*/});
+				}
 			});			
 			copy(con.getInputStream(), resp.getOutputStream());			
 		} catch(Exception e) {
