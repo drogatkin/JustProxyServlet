@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
+import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -77,8 +78,8 @@ public class Main extends HttpServlet {
 				}
 			}
 			con.addRequestProperty("X-Forwarded-For", req.getRemoteAddr());
-			con.addRequestProperty("X-Forwarded-Server", "localhost"); // TODO find out
-			con.addRequestProperty("X-Forwarded-Request", req.getRequestURL().toString());
+			con.addRequestProperty("X-Forwarded-Server", InetAddress.getLocalHost().getHostName()); // TODO find out
+			con.addRequestProperty("X-Forwarded-Request",  req.getRequestURL().toString());
 			if ("POST".equalsIgnoreCase(met)) {
 				String contentType = req.getContentType();
 				if (contentType != null && contentType.toLowerCase().indexOf("multipart/form-data") >= 0) {
