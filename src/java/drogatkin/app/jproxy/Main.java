@@ -6,7 +6,6 @@ import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
 import java.net.InetAddress;
-import java.net.InetAddress;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Enumeration;
